@@ -1,0 +1,73 @@
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+
+
+
+arr = np.arange(1, 21)
+print("Array:", arr)
+
+print("4x5 Matrix:\n", arr.reshape(4,5))
+
+
+print("Mean:", np.mean(arr))
+print("Median:", np.median(arr))
+print("Std Dev:", np.std(arr))
+
+
+print("Even Numbers:", arr[arr % 2 == 0])
+
+
+rand_mat = np.random.rand(5,5)
+print("Random Matrix:\n", rand_mat)
+print("Transpose:\n", rand_mat.T)
+
+
+
+df = pd.read_csv("student_data.csv")
+
+
+print(df.head())
+print(df.tail())
+
+
+df.fillna(df.mean(numeric_only=True), inplace=True)
+
+
+df["Average"] = df[["Math","Science","English"]].mean(axis=1)
+
+
+print("Top Student:\n", df.loc[df["Average"].idxmax()])
+
+
+print("Math >75:\n", df[df["Math"] > 75])
+
+
+df["Result"] = df["Average"].apply(lambda x: "Pass" if x >= 40 else "Fail")
+
+
+
+
+
+plt.bar(df["Name"], df["Average"])
+plt.title("Average Marks")
+plt.xticks(rotation=45)
+plt.show()
+
+
+df["Result"].value_counts().plot.pie(autopct="%1.1f%%")
+plt.title("Pass vs Fail")
+plt.ylabel("")
+plt.show()
+
+
+plt.plot(df["Name"], df["Math"], label="Math")
+plt.plot(df["Name"], df["Science"], label="Science")
+plt.plot(df["Name"], df["English"], label="English")
+plt.legend()
+plt.xticks(rotation=45)
+plt.title("Marks Comparison")
+plt.show()
